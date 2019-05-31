@@ -1,26 +1,55 @@
-// const validator = require('validator');
 // const chalk = require('chalk');
-// const getNotes = require('./notes');
+const yargs = require('yargs');
+const notes = require('./notes');
 
-const command = process.argv[2];
+// Customize yargs version
+yargs.version('1.1.0')
+// add, remove, read, list
+// Create add command
+yargs.command({
+  command: 'add',
+  describe: 'Add a new note',
+  builder: {
+    title: {
+      describe: 'Note title',
+      demandOption: true,
+      type: 'string'
+    },
+    body: {
+      describe: 'Note body',
+      demandOption: true,
+      type: 'string'
+    }
+  },
+  handler: (argv) => {
+    notes.addNote(argv.title, argv.body);
+  }
+})
+// Create a remove command
+yargs.command({
+  command: 'remove',
+  describe: 'Remove a note',
+  handler: () => {
+    console.log('Removing the note')
+  }
+})
+// Create a list command
+yargs.command({
+  command: 'list',
+  describe: 'List your notes',
+  handler: () => {
+    console.log('Listing out all notes')
+  }
+})
+// Create a read command
+yargs.command({
+  command: 'read',
+  describe: 'Read a note',
+  handler: () => {
+    console.log('Reading a note')
+  }
+})
 
-console.log(process.argv) // node app.js add --title="This is my title"
+yargs.parse();
 
-if (command === 'add') {
-  console.log('Adding note!');
-} else if (command === 'remove') {
-  console.log('Removing note!');
-}
 
-// const msg = getNotes();
-// console.log(msg);
-
-// // console.log(validator.isEmail('andrew@example.com'))
-// // console.log(validator.isURL('https://mead.io'))
-
-// const chalkMsg = chalk.green.bold.inverse('Success!');
-// const chalkError = chalk.bgRed.bold('Error!');
-// console.log(chalkMsg);
-// console.log(chalkError);
-
-// console.log(process.argv);
